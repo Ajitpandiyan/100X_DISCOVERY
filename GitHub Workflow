@@ -6,6 +6,7 @@
         # Install the package first
         cd frontend
         pip install -e .
+        cd ..
         
         curl -X POST https://api.streamlit.io/v1/apps \
           -H "Authorization: Bearer $STREAMLIT_API_KEY" \
@@ -14,5 +15,5 @@
             "name": "100x-discovery",
             "repository": "${{ github.repository }}",
             "branch": "main",
-            "mainModule": "src/app.py"
+            "mainModule": "frontend/src/app.py"
           }'
