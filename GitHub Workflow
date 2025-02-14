@@ -1,32 +1,12 @@
-name: CI/CD
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    # Deploy Backend to Koyeb
-    - name: Deploy to Koyeb
-      uses: koyeb/action-git-deploy@v1
-      with:
-        app-name: 100x-discovery-api
-        service-name: backend
-        service-env: |
-          GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
-        api-token: ${{ secrets.KOYEB_TOKEN }}
-
     # Deploy Frontend to Streamlit Cloud
     - name: Deploy to Streamlit Cloud
       env:
         STREAMLIT_API_KEY: ${{ secrets.STREAMLIT_API_KEY }}
       run: |
+        # Install the package first
+        cd frontend
+        pip install -e .
+        
         curl -X POST https://api.streamlit.io/v1/apps \
           -H "Authorization: Bearer $STREAMLIT_API_KEY" \
           -H "Content-Type: application/json" \
@@ -34,5 +14,5 @@ jobs:
             "name": "100x-discovery",
             "repository": "${{ github.repository }}",
             "branch": "main",
-            "mainModule": "frontend/src/app.py"
+            "mainModule": "src/app.py"
           }'
