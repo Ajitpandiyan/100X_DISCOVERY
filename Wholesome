@@ -1,0 +1,316 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "${PORT}:8000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env.production
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - .env.production
+    depends_on:
+      - backend
+    command: streamlit run src/app.py
+
+# Changelog
+
+All notable changes to the 100X Discovery Platform will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Initial project setup with monorepo structure
+- Backend setup with FastAPI
+  - Profile management endpoints
+  - Search functionality using Groq LLM
+  - Basic data storage using JSON files
+- Frontend setup with Streamlit
+  - Home page with project overview
+  - Profile creation interface
+  - Search interface
+- Docker configuration for both frontend and backend services
+- Environment configuration setup
+
+### Changed
+- Updated Groq client from 0.4.3 to 0.18.0 for compatibility
+- Modified search implementation to use latest Groq API
+
+### Fixed
+- Resolved Groq client import issues
+- Fixed environment variable loading in search functionality
+- Corrected package version conflicts in requirements.txt
+
+### Technical Debt
+- Need to implement proper error handling
+- Add input validation for profile creation
+- Implement proper testing suite
+- Add proper documentation for API endpoints
+
+## [0.1.0] - 2024-03-XX
+- Initial release of MVP 
+
+# 100X Discovery Platform
+
+## Deployment URLs
+
+- Frontend: https://100x-discovery.streamlit.app
+- Backend API: https://100x-discovery-api-your-name.koyeb.app
+
+## GitHub Repository
+https://github.com/yourusername/100X_DISCOVERY
+
+## Development Workflow
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/100X_DISCOVERY.git
+cd 100X_DISCOVERY
+```
+
+2. Create a new branch for your feature:
+```bash
+git checkout -b feature/your-feature-name
+```
+
+3. Make your changes and commit:
+```bash
+git add .
+git commit -m "Description of your changes"
+```
+
+4. Push to GitHub:
+```bash
+git push origin feature/your-feature-name
+```
+
+5. Create a Pull Request on GitHub
+
+## CI/CD
+
+The project uses GitHub Actions for:
+- Running tests
+- Deploying to Koyeb (backend)
+- Deploying to Streamlit Cloud (frontend)
+
+### Required Secrets
+- GROQ_API_KEY
+- KOYEB_TOKEN
+- STREAMLIT_API_KEY
+
+## Local Development
+
+1. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your values
+```
+
+3. Run with Docker:
+```bash
+docker-compose up --build
+```
+
+4. Access the application:
+- Frontend: http://localhost:8501
+- Backend API: http://localhost:8000
+
+## Production Deployment
+
+### Backend (Koyeb)
+```bash
+./scripts/deploy-koyeb.sh
+```
+
+### Frontend (Streamlit Cloud)
+Push to main branch and Streamlit Cloud will automatically deploy.
+
+## Environment Variables
+
+### Backend
+- `GROQ_API_KEY`: Your Groq API key
+- `PORT`: Server port (default: 8000)
+- `DATA_DIR`: Directory for JSON storage
+
+### Frontend
+- `BACKEND_URL`: URL of the backend API 
+
+
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+
+# Environment Variables
+.env
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Data
+backend/data/profiles.json
+
+# Logs
+*.log 
+
+
+
+# Backend
+GROQ_API_KEY=your_groq_api_key
+BACKEND_PORT=8000
+
+# Frontend
+STREAMLIT_PORT=8501
+BACKEND_URL=http://localhost:8000 
+
+
+
+
+
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        cd backend && pip install -r requirements.txt
+        cd ../frontend && pip install -r requirements.txt
+    
+    - name: Run tests
+      env:
+        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      run: |
+        cd backend && pytest
+        cd ../frontend && pytest
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    # Deploy Backend to Koyeb
+    - name: Deploy to Koyeb
+      uses: koyeb/action-git-deploy@v1
+      with:
+        app-name: 100x-discovery-api
+        service-name: backend
+        service-env: |
+          GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
+        api-token: ${{ secrets.KOYEB_TOKEN }}
+
+    # Deploy Frontend to Streamlit Cloud
+    - name: Deploy to Streamlit Cloud
+      env:
+        STREAMLIT_API_KEY: ${{ secrets.STREAMLIT_API_KEY }}
+      run: |
+        curl -X POST https://api.streamlit.io/v1/apps \
+          -H "Authorization: Bearer $STREAMLIT_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "name": "100x-discovery",
+            "repository": "${{ github.repository }}",
+            "branch": "main",
+            "mainModule": "frontend/src/app.py"
+          }' 
+
+
+name: Feature Request
+description: Suggest an idea for this project
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature!
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: Describe the feature you'd like to see
+    validations:
+      required: true 
+
+
+
+
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.routers.profiles import router as profiles_router
+from app.routers.search import router as search_router
+
+app = FastAPI(title="100X Discovery Platform API")
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For development only
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Include routers
+app.include_router(profiles_router, prefix="/api/profiles", tags=["profiles"])
+app.include_router(search_router, prefix="/api/search", tags=["search"])
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to 100X Discovery Platform API"} 
