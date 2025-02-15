@@ -41,12 +41,12 @@ jobs:
     - name: Check formatting with Black
       run: |
         cd frontend
-        black . --check
+        python -m black . --check
     
     - name: Check imports with isort
       run: |
         cd frontend
-        isort . --check-only --profile black
+        python -m isort . --check-only --profile black
   
   deploy:
     needs: lint
