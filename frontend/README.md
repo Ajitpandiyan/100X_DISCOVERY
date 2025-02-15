@@ -1,21 +1,29 @@
-# 100X Discovery Platform Frontend
+# 100X Discovery Platform - Frontend
 
-A Streamlit-based frontend for the 100X Discovery Platform, featuring a minimalist UI design inspired by Perplexity.
+A modern web application built with Streamlit for discovering and connecting with talented engineers.
 
 ## Features
+- Create and manage professional profiles
+- Search for engineers based on skills and interests
+- AI-powered profile matching
+- Real-time updates
 
-- Profile Creation & Management
-- Advanced Profile Search
-- Dark/Light Theme Toggle
-- Responsive Design
-- Real-time Updates
+## Local Development
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-## Setup & Installation
+2. Run the application:
+```bash
+streamlit run streamlit_app.py
+```
 
-### Prerequisites
-- Python 3.9+
-- pip package manager
+## Environment Variables
+Copy `.env.example` to `.env` and fill in your values:
+- `STREAMLIT_TOKEN`: Your Streamlit API token
+- `BACKEND_API_URL`: Backend API URL
+- `BACKEND_API_KEY`: Backend API authentication key
 
-### Local Development
-
-1. Clone the repository:
+## Deployment
+The application is automatically deployed to Streamlit Cloud via GitHub Actions when changes are pushed to the main branch.
