@@ -1,0 +1,53 @@
+100X_DISCOVERY/
+├── .github/
+│   └── workflows/
+│       ├── backend-ci.yml
+│       └── frontend-ci.yml
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py
+│   │   │   └── security.py
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   └── profile.py
+│   │   ├── routers/
+│   │   │   ├── __init__.py
+│   │   │   ├── profiles.py
+│   │   │   └── search.py
+│   │   └── services/
+│   │       ├── __init__.py
+│   │       ├── groq_service.py
+│   │       └── profile_service.py
+│   ├── data/
+│   │   └── profiles.json
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_profiles.py
+│   │   └── test_search.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── README.md
+├── frontend/
+│   ├── pages/
+│   │   ├── 1_Profile_Creation.py
+│   │   └── 2_Search.py
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── __init__.py
+│   │   │   ├── profile_form.py
+│   │   │   └── search_interface.py
+│   │   ├── utils/
+│   │   │   ├── __init__.py
+│   │   │   └── api.py
+│   │   └── config.py
+│   ├── streamlit_app.py
+│   ├── requirements.txt
+│   └── README.md
+├── .gitignore
+├── .env.example
+├── docker-compose.yml
+└── README.md

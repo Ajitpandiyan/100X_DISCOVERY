@@ -1,0 +1,18 @@
+# Core dependencies
+streamlit==1.29.0
+httpx==0.25.2
+python-dotenv==1.0.0
+pydantic==2.5.2
+pydantic-settings==2.1.0
+
+# UI enhancements
+streamlit-extras==0.3.5
+streamlit-option-menu==0.3.6
+
+# Utilities
+python-slugify==8.0.1
+validators==0.22.0
+
+# Development tools
+black==23.11.0
+isort==5.12.0

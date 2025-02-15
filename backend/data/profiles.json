@@ -1,0 +1,77 @@
+[
+  {
+    "name": "aji",
+    "bio": "entrepreneur",
+    "skills": [
+      "Data Science"
+    ],
+    "interests": [
+      "AI/ML"
+    ],
+    "github_url": "nil",
+    "linkedin_url": "nil",
+    "id": "b41c20d8-650a-4fef-990d-259dcfddc08d"
+  },
+  {
+    "name": "sasi",
+    "bio": "businesswomen",
+    "skills": [
+      "DevOps",
+      "Python"
+    ],
+    "interests": [
+      "AI/ML"
+    ],
+    "github_url": "nil",
+    "linkedin_url": "nil",
+    "id": "2283f7d9-c3e5-4009-a42a-7b93e2502f9d"
+  },
+  {
+    "name": "aji",
+    "bio": "Businessman",
+    "skills": [
+      "Data Science"
+    ],
+    "interests": [
+      "AI/ML",
+      "Cloud Computing"
+    ],
+    "github_url": "nil",
+    "linkedin_url": "nil",
+    "id": "6f2bd460-9ca7-4f37-a23d-40b850d487e8"
+  },
+  {
+    "name": "aji",
+    "bio": "Businessman",
+    "skills": [
+      "Data Science",
+      "React",
+      "Python"
+    ],
+    "interests": [
+      "IoT",
+      "Mobile Development",
+      "AI/ML"
+    ],
+    "github_url": "nil",
+    "linkedin_url": "nil",
+    "id": "c0471059-7858-4bb3-b0c9-604cca38cb3f"
+  },
+  {
+    "name": "ajit kumar pandiyan",
+    "bio": "Ceo",
+    "skills": [
+      "Data Science",
+      "React",
+      "Python"
+    ],
+    "interests": [
+      "IoT",
+      "Mobile Development",
+      "AI/ML"
+    ],
+    "github_url": "nil",
+    "linkedin_url": "https://www.linkedin.com/in/ajithkumar-pandiyan/",
+    "id": "9e0d2550-3b6a-47f3-8cd8-c2adcaafbc41"
+  }
+]

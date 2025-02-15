@@ -1,0 +1,35 @@
+# Environment variables and secrets
+.env
+*/.env
+.streamlit/secrets.toml
+frontend/.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual Environment
+venv/
+env/
+.env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Data
+backend/app/data/*.json
+!backend/app/data/profiles.json
+
+# Dependencies
+node_modules/
+
+# Misc
+.DS_Store 
