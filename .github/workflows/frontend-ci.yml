@@ -11,12 +11,7 @@ on:
     branches: [ main ]
 
 env:
-  STREAMLIT_APP_NAME: "100x-discovery"
   PYTHON_VERSION: "3.9"
-
-permissions:
-  contents: read
-  id-token: write
 
 jobs:
   lint:
@@ -47,14 +42,11 @@ jobs:
       run: |
         cd frontend
         python -m isort . --check-only --profile black
-  
+
   deploy:
     needs: lint
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://share.streamlit.io
     
     steps:
     - uses: actions/checkout@v3
@@ -64,27 +56,16 @@ jobs:
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     
-    - name: Create .streamlit directory
-      run: mkdir -p frontend/.streamlit
-    
-    - name: Create secrets.toml
-      env:
-        STREAMLIT_TOKEN: ${{ secrets.STREAMLIT_TOKEN }}
-        BACKEND_API_URL: ${{ secrets.BACKEND_API_URL }}
-        BACKEND_API_KEY: ${{ secrets.BACKEND_API_KEY }}
+    - name: Install dependencies
       run: |
-        cat << EOF > frontend/.streamlit/secrets.toml
-        [general]
-        STREAMLIT_TOKEN = "${STREAMLIT_TOKEN}"
-        BACKEND_API_URL = "${BACKEND_API_URL}"
-        BACKEND_API_KEY = "${BACKEND_API_KEY}"
-        EOF
-    
-    - name: Deploy to Streamlit Cloud
-      env:
-        STREAMLIT_TOKEN: ${{ secrets.STREAMLIT_TOKEN }}
-      uses: streamlit/cloud-deploy-action@v1
-      with:
-        app-name: ${{ env.STREAMLIT_APP_NAME }}
-        streamlit-token: ${STREAMLIT_TOKEN}
-        root-path: "./frontend"
+        cd frontend
+        pip install streamlit
+
+    # Note: Manual deployment instructions
+    # 1. Go to https://share.streamlit.io/
+    # 2. Deploy from GitHub repository
+    # 3. Set main file path to: frontend/streamlit_app.py
+    # 4. Add the following secrets in Streamlit Cloud:
+    #    - streamlit_token
+    #    - backend_api_key
+    #    - backend_api_url
