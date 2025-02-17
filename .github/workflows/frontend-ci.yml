@@ -61,16 +61,22 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov
     
+    - name: Create test environment file
+      run: |
+        cd frontend
+        echo "STREAMLIT_TOKEN=${{ secrets.STREAMLIT_TOKEN }}" > .env
+        echo "BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY }}" >> .env
+        echo "BACKEND_API_URL=http://localhost:8000" >> .env
+    
     - name: Run tests with coverage
       run: |
         cd frontend
         pytest --cov=src --cov-report=xml
-    
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./frontend/coverage.xml
-        flags: frontend
+      env:
+        STREAMLIT_TOKEN: ${{ secrets.STREAMLIT_TOKEN }}
+        BACKEND_API_KEY: ${{ secrets.BACKEND_API_KEY }}
+        BACKEND_API_URL: http://localhost:8000
+        PYTHONPATH: ${{ github.workspace }}/frontend
 
   deploy:
     needs: [lint, test]

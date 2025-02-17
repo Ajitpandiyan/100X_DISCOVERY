@@ -61,10 +61,21 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov
     
+    - name: Create test environment file
+      run: |
+        cd backend
+        echo "ENVIRONMENT=test" > .env
+        echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env
+        echo "BACKEND_CORS_ORIGINS=[\"http://localhost:8501\"]" >> .env
+    
     - name: Run tests
       run: |
         cd backend
         pytest --cov=app --cov-report=xml
+      env:
+        ENVIRONMENT: test
+        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        PYTHONPATH: ${{ github.workspace }}/backend
     
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3

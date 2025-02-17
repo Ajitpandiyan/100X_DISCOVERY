@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
 from typing import List, Dict
 from app.services.profile_service import ProfileService
 
@@ -47,3 +47,8 @@ async def search_profiles(
     matches.sort(key=lambda x: x["score"], reverse=True)
     
     return {"matches": matches}
+
+@router.get("/health")
+async def health_check() -> Dict[str, str]:
+    """Health check endpoint"""
+    return {"status": "healthy"}
