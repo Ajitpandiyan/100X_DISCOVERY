@@ -1,3 +1,5 @@
+"""Main application module for the FastAPI backend."""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
@@ -24,5 +26,5 @@ app.include_router(search.router, prefix="/api/v1/search", tags=["search"])
 
 @app.get("/health")
 async def root():
-    """Root health check endpoint"""
+    """Root health check endpoint."""
     return {"status": "healthy", "service": "100X Discovery API"}

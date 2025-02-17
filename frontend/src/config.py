@@ -1,6 +1,8 @@
 """Configuration module for the frontend application."""
 
 import os
+from typing import Optional
+
 import streamlit as st
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
@@ -21,12 +23,12 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 
-def get_streamlit_token() -> str | None:
+def get_streamlit_token() -> Optional[str]:
     """
     Get Streamlit API token from environment variables or secrets.
 
     Returns:
-        str | None: Token in order of precedence:
+        Optional[str]: Token in order of precedence:
             1. Environment variable
             2. Streamlit secrets
             3. None
@@ -41,12 +43,12 @@ def get_streamlit_token() -> str | None:
     return token
 
 
-def get_backend_api_key() -> str | None:
+def get_backend_api_key() -> Optional[str]:
     """
     Get Backend API key from environment variables or secrets.
 
     Returns:
-        str | None: Key in order of precedence:
+        Optional[str]: Key in order of precedence:
             1. Environment variable
             2. Streamlit secrets
             3. None
