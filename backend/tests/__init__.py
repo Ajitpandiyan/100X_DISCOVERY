@@ -13,3 +13,5 @@ import sys
 
 # Add the parent directory to PYTHONPATH for proper imports during testing
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+"""Test suite package."""

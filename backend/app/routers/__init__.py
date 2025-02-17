@@ -1,3 +1,3 @@
 """
-API routes module
+API routes package.
 """

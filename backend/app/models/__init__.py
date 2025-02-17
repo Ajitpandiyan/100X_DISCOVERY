@@ -1,3 +1,3 @@
 """
-Data models module
+Data models package.
 """
