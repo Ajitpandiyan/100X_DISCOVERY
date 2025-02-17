@@ -1,5 +1,6 @@
-"""100X Discovery Platform Backend."""
+"""100X Discovery Platform Backend.
+
+The main application package for the backend service.
+"""
 
 __version__ = "1.0.0"
-
-"""Main application package."""
