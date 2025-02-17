@@ -43,9 +43,8 @@ jobs:
         cd frontend
         python -m isort . --check-only --profile black
 
-  deploy:
+  test:
     needs: lint
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     
     steps:
@@ -59,13 +58,61 @@ jobs:
     - name: Install dependencies
       run: |
         cd frontend
-        pip install streamlit
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: Run tests with coverage
+      run: |
+        cd frontend
+        pytest --cov=src --cov-report=xml
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./frontend/coverage.xml
+        flags: frontend
 
-    # Note: Manual deployment instructions
-    # 1. Go to https://share.streamlit.io/
-    # 2. Deploy from GitHub repository
-    # 3. Set main file path to: frontend/streamlit_app.py
-    # 4. Add the following secrets in Streamlit Cloud:
-    #    - streamlit_token
-    #    - backend_api_key
-    #    - backend_api_url
+  deploy:
+    needs: [lint, test]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+    
+    - name: Install dependencies
+      run: |
+        cd frontend
+        pip install -r requirements.txt
+
+    - name: Create .streamlit directory
+      run: mkdir -p frontend/.streamlit
+
+    - name: Create secrets.toml
+      run: |
+        echo "[general]" > frontend/.streamlit/secrets.toml
+        echo "STREAMLIT_TOKEN = \"${{ secrets.STREAMLIT_TOKEN }}\"" >> frontend/.streamlit/secrets.toml
+        echo "BACKEND_API_KEY = \"${{ secrets.BACKEND_API_KEY }}\"" >> frontend/.streamlit/secrets.toml
+        echo "BACKEND_API_URL = \"${{ secrets.BACKEND_API_URL }}\"" >> frontend/.streamlit/secrets.toml
+      env:
+        BACKEND_API_KEY: ${{ secrets.BACKEND_API_KEY }}
+
+    - name: Deploy to Streamlit Cloud
+      env:
+        STREAMLIT_API_KEY: ${{ secrets.STREAMLIT_API_KEY }}
+      run: |
+        # Install Streamlit CLI if needed
+        pip install streamlit
+        
+        # Deploy using Streamlit CLI (example - adjust based on actual Streamlit Cloud deployment method)
+        echo "Deploying to Streamlit Cloud..."
+        # Add actual deployment command here when Streamlit provides CLI deployment support
+        
+        # For now, this is a placeholder as Streamlit Cloud uses GitHub integration
+        echo "Note: Streamlit Cloud automatically deploys from GitHub. Please ensure GitHub integration is set up in Streamlit Cloud."
