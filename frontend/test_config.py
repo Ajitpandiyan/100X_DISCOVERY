@@ -1,6 +1,6 @@
 import streamlit as st
-
-from src.config import BACKEND_API_KEY, STREAMLIT_TOKEN, settings
+import pytest
+from src.config import BACKEND_API_KEY, STREAMLIT_TOKEN, settings, Settings
 
 
 def test_api_keys():
@@ -31,6 +31,14 @@ def test_api_keys():
     print(
         f"✅ Backend API Key from settings: {'Present' if settings.BACKEND_API_KEY else 'Missing'}"
     )
+
+
+def test_settings():
+    """Test that settings can be loaded"""
+    settings = Settings()
+    assert settings is not None
+    assert hasattr(settings, "backend_api_url")
+    assert hasattr(settings, "backend_api_key")
 
 
 if __name__ == "__main__":

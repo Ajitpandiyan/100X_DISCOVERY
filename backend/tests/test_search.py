@@ -1,6 +1,7 @@
 import pytest
 from httpx import AsyncClient
 from app.main import app
+from fastapi.testclient import TestClient
 
 @pytest.mark.asyncio
 async def test_search_profiles():
@@ -19,3 +20,11 @@ async def test_search_profiles():
         assert response.status_code == 200
         data = response.json()
         assert "choices" in data
+
+client = TestClient(app)
+
+def test_search_endpoint_exists():
+    """Test that the search endpoint exists"""
+    response = client.get("/api/v1/search/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "healthy"}
