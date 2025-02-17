@@ -1,5 +1,6 @@
-import os
+"""Configuration module for the frontend application."""
 
+import os
 import streamlit as st
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
@@ -9,22 +10,26 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    """Application settings"""
+    """Application settings."""
+
     backend_api_url: str = os.getenv("BACKEND_API_URL", "http://localhost:8000")
     backend_api_key: str = os.getenv("BACKEND_API_KEY", "")
     streamlit_token: str = os.getenv("STREAMLIT_TOKEN", "")
 
     class Config:
+        """Pydantic configuration."""
         env_file = ".env"
 
 
-def get_streamlit_token():
+def get_streamlit_token() -> str | None:
     """
-    Get Streamlit API token from environment variables or secrets
-    Returns in order of precedence:
-    1. Environment variable
-    2. Streamlit secrets
-    3. None
+    Get Streamlit API token from environment variables or secrets.
+
+    Returns:
+        str | None: Token in order of precedence:
+            1. Environment variable
+            2. Streamlit secrets
+            3. None
     """
     # First try environment variable
     token = os.getenv("STREAMLIT_TOKEN")
@@ -36,13 +41,15 @@ def get_streamlit_token():
     return token
 
 
-def get_backend_api_key():
+def get_backend_api_key() -> str | None:
     """
-    Get Backend API key from environment variables or secrets
-    Returns in order of precedence:
-    1. Environment variable
-    2. Streamlit secrets
-    3. None
+    Get Backend API key from environment variables or secrets.
+
+    Returns:
+        str | None: Key in order of precedence:
+            1. Environment variable
+            2. Streamlit secrets
+            3. None
     """
     # First try environment variable
     key = os.getenv("BACKEND_API_KEY")
@@ -54,10 +61,7 @@ def get_backend_api_key():
     return key
 
 
-# Export the tokens for use in other files
-STREAMLIT_TOKEN = get_streamlit_token()
-BACKEND_API_KEY = get_backend_api_key()
-
+# Initialize settings
 settings = Settings()
 
 # Export commonly used settings
