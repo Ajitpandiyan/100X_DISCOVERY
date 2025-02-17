@@ -23,5 +23,6 @@ app.include_router(profiles.router, prefix="/api/v1/profiles", tags=["profiles"]
 app.include_router(search.router, prefix="/api/v1/search", tags=["search"])
 
 @app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+async def root():
+    """Root health check endpoint"""
+    return {"status": "healthy", "service": "100X Discovery API"}

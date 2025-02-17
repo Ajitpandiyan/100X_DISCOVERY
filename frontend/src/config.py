@@ -9,13 +9,13 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    BACKEND_API_URL: str = "http://localhost:8000"
-    BACKEND_API_KEY: str = ""
-    STREAMLIT_TOKEN: str = ""
+    """Application settings"""
+    backend_api_url: str = os.getenv("BACKEND_API_URL", "http://localhost:8000")
+    backend_api_key: str = os.getenv("BACKEND_API_KEY", "")
+    streamlit_token: str = os.getenv("STREAMLIT_TOKEN", "")
 
     class Config:
         env_file = ".env"
-        case_sensitive = True
 
 
 def get_streamlit_token():
@@ -59,3 +59,8 @@ STREAMLIT_TOKEN = get_streamlit_token()
 BACKEND_API_KEY = get_backend_api_key()
 
 settings = Settings()
+
+# Export commonly used settings
+BACKEND_API_URL = settings.backend_api_url
+BACKEND_API_KEY = settings.backend_api_key
+STREAMLIT_TOKEN = settings.streamlit_token
