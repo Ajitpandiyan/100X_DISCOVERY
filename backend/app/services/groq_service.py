@@ -79,24 +79,24 @@ class GroqService:
         try:
             # Call Groq API for semantic search
             async with httpx.AsyncClient(timeout=30.0) as client:
-                response = await client.post(
-                    f"{self.base_url}/chat/completions",
+            response = await client.post(
+                f"{self.base_url}/chat/completions",
                     headers={
                         "Authorization": f"Bearer {self.api_key}",
                         "Content-Type": "application/json"
                     },
-                    json={
+                json={
                         "model": self.model,
-                        "messages": [
+                    "messages": [
                             {"role": "system", "content": "You are a semantic search engine that analyzes profiles and returns relevant matches as JSON."},
                             {"role": "user", "content": prompt}
-                        ],
+                    ],
                         "temperature": 0.1,  # Low temperature for consistent results
                         "response_format": {"type": "json_object"}
-                    }
-                )
+                }
+            )
                 
-                response.raise_for_status()
+            response.raise_for_status()
                 result = response.json()
                 
                 # Extract the JSON response
