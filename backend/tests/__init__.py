@@ -1,3 +1,5 @@
+"""Test package for backend."""
+
 """Test suite for 100X Discovery Platform Backend.
 
 This package contains test modules for:
