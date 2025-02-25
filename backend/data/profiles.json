@@ -1,77 +1,97 @@
 [
   {
-    "name": "aji",
-    "bio": "entrepreneur",
+    "id": "1",
+    "name": "Alex Chen",
+    "bio": "Full-stack developer with 5 years of experience in React and Node.js",
     "skills": [
-      "Data Science"
-    ],
-    "interests": [
-      "AI/ML"
-    ],
-    "github_url": "nil",
-    "linkedin_url": "nil",
-    "id": "b41c20d8-650a-4fef-990d-259dcfddc08d"
-  },
-  {
-    "name": "sasi",
-    "bio": "businesswomen",
-    "skills": [
-      "DevOps",
-      "Python"
-    ],
-    "interests": [
-      "AI/ML"
-    ],
-    "github_url": "nil",
-    "linkedin_url": "nil",
-    "id": "2283f7d9-c3e5-4009-a42a-7b93e2502f9d"
-  },
-  {
-    "name": "aji",
-    "bio": "Businessman",
-    "skills": [
-      "Data Science"
-    ],
-    "interests": [
-      "AI/ML",
-      "Cloud Computing"
-    ],
-    "github_url": "nil",
-    "linkedin_url": "nil",
-    "id": "6f2bd460-9ca7-4f37-a23d-40b850d487e8"
-  },
-  {
-    "name": "aji",
-    "bio": "Businessman",
-    "skills": [
-      "Data Science",
+      "JavaScript",
       "React",
-      "Python"
+      "Node.js",
+      "MongoDB",
+      "Express"
     ],
     "interests": [
-      "IoT",
-      "Mobile Development",
-      "AI/ML"
+      "Web Development",
+      "UI/UX",
+      "Serverless Architecture"
     ],
-    "github_url": "nil",
-    "linkedin_url": "nil",
-    "id": "c0471059-7858-4bb3-b0c9-604cca38cb3f"
+    "github_url": "https://github.com/alexchen",
+    "linkedin_url": "https://linkedin.com/in/alexchen"
   },
   {
-    "name": "ajit kumar pandiyan",
-    "bio": "Ceo",
+    "id": "2",
+    "name": "Priya Sharma",
+    "bio": "Machine learning engineer specializing in NLP and computer vision",
     "skills": [
-      "Data Science",
-      "React",
-      "Python"
+      "Python",
+      "TensorFlow",
+      "PyTorch",
+      "NLP",
+      "Computer Vision"
     ],
     "interests": [
-      "IoT",
-      "Mobile Development",
-      "AI/ML"
+      "AI Ethics",
+      "Deep Learning",
+      "Research"
     ],
-    "github_url": "nil",
-    "linkedin_url": "https://www.linkedin.com/in/ajithkumar-pandiyan/",
-    "id": "9e0d2550-3b6a-47f3-8cd8-c2adcaafbc41"
+    "github_url": "https://github.com/priyasharma",
+    "linkedin_url": "https://linkedin.com/in/priyasharma"
+  },
+  {
+    "id": "3",
+    "name": "Marcus Johnson",
+    "bio": "DevOps engineer with expertise in cloud infrastructure and CI/CD pipelines",
+    "skills": [
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "Terraform",
+      "Jenkins"
+    ],
+    "interests": [
+      "Cloud Architecture",
+      "Infrastructure as Code",
+      "Site Reliability"
+    ],
+    "github_url": "https://github.com/marcusj",
+    "linkedin_url": "https://linkedin.com/in/marcusj"
+  },
+  {
+    "id": "4",
+    "name": "Sofia Rodriguez",
+    "bio": "Mobile app developer focused on cross-platform solutions",
+    "skills": [
+      "Flutter",
+      "React Native",
+      "Swift",
+      "Kotlin",
+      "Firebase"
+    ],
+    "interests": [
+      "Mobile UX",
+      "App Performance",
+      "Offline-first Design"
+    ],
+    "github_url": "https://github.com/sofiar",
+    "linkedin_url": "https://linkedin.com/in/sofiar"
+  },
+  {
+    "id": "5",
+    "name": "Jamal Williams",
+    "bio": "Data scientist with background in finance and statistical modeling",
+    "skills": [
+      "Python",
+      "R",
+      "SQL",
+      "Pandas",
+      "Scikit-learn"
+    ],
+    "interests": [
+      "Financial Analytics",
+      "Predictive Modeling",
+      "Data Visualization"
+    ],
+    "github_url": "https://github.com/jamalw",
+    "linkedin_url": "https://linkedin.com/in/jamalw"
   }
 ]

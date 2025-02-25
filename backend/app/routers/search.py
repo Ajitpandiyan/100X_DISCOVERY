@@ -1,54 +1,64 @@
-from fastapi import APIRouter, Query, HTTPException
-from typing import List, Dict
+"""Search router module.
+
+This module provides endpoints for searching profiles using semantic search via Groq API.
+"""
+
+from typing import Dict, List, Any
+
+from fastapi import APIRouter, HTTPException, Query
+
 from app.services.profile_service import ProfileService
+from app.services.groq_service import GroqService
 
 router = APIRouter()
 profile_service = ProfileService()
+groq_service = GroqService()
+
 
 @router.get("/")
 async def search_profiles(
     query: str = Query(..., description="Search query for matching profiles")
-) -> Dict:
-    # Get all profiles
-    profiles = await profile_service.list_profiles()
-    
-    # Convert query to lowercase for case-insensitive matching
-    query = query.lower()
-    
-    # Simple text matching
-    matches = []
-    for profile in profiles:
-        profile_dict = profile.dict()
-        score = 0
+) -> Dict[str, List[Dict[str, Any]]]:
+    """Search for profiles based on a text query using semantic search.
+
+    The search uses Groq's LLM to understand the semantic meaning of:
+    - Name
+    - Bio
+    - Skills (weighted higher)
+    - Interests (weighted medium)
+
+    Args:
+        query: Search string to match against profiles
+
+    Returns:
+        Dict[str, List[Dict]]: List of matching profiles with scores and match reasons
+
+    Raises:
+        HTTPException: If search fails
+    """
+    try:
+        # Get all profiles
+        profiles = await profile_service.list_profiles()
         
-        # Check name
-        if query in profile_dict["name"].lower():
-            score += 1
-            
-        # Check bio
-        if query in profile_dict["bio"].lower():
-            score += 1
-            
-        # Check skills
-        for skill in profile_dict["skills"]:
-            if query in skill.lower():
-                score += 2
-                
-        # Check interests
-        for interest in profile_dict["interests"]:
-            if query in interest.lower():
-                score += 1.5
-                
-        if score > 0:
-            profile_dict["score"] = score
-            matches.append(profile_dict)
-    
-    # Sort by score
-    matches.sort(key=lambda x: x["score"], reverse=True)
-    
-    return {"matches": matches}
+        # Convert profiles to dictionaries
+        profile_dicts = [profile.dict() for profile in profiles]
+        
+        # Use Groq for semantic search
+        matches = await groq_service.get_semantic_search_results(query, profile_dicts)
+
+        return {"matches": matches}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to search profiles: {str(e)}",
+        )
+
 
 @router.get("/health")
 async def health_check() -> Dict[str, str]:
-    """Health check endpoint"""
+    """Health check endpoint.
+
+    Returns:
+        Dict[str, str]: Health status response
+    """
     return {"status": "healthy"}

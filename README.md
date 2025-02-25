@@ -7,11 +7,25 @@ A discovery platform for 100XEngineers AI cohort focusing on profile management 
 - `frontend/`: Streamlit frontend application
 - `.github/`: CI/CD workflows
 
+## Features
+
+### Profile Management
+- Create and manage detailed user profiles
+- Store skills, interests, and professional background
+- Link to GitHub and LinkedIn profiles
+
+### Semantic Search (Powered by Groq)
+- Find relevant profiles using natural language queries
+- Intelligent matching based on skills, interests, and background
+- Relevance scoring with explanations for matches
+- Fallback mechanism for offline operation
+
 ## Getting Started
 
 ### Prerequisites
 - Python 3.9+
 - Docker (optional)
+- Groq API key (for semantic search)
 
 ### Local Development
 
@@ -50,8 +64,35 @@ streamlit run streamlit_app.py
 ### Backend
 The backend is built with FastAPI and provides REST APIs for profile management and search functionality.
 
+#### Semantic Search Implementation
+The semantic search feature uses Groq's LLM API to understand the meaning behind search queries and match them with relevant profiles:
+
+1. **Query Processing**: Natural language queries are processed by the Groq LLM
+2. **Profile Analysis**: The LLM analyzes profiles based on skills, interests, and background
+3. **Relevance Scoring**: Profiles are ranked by relevance with explanations
+4. **Fallback Mechanism**: Basic text matching is used if the Groq API is unavailable
+
+To test the semantic search functionality:
+```bash
+cd backend
+python test_semantic_search.py
+```
+
 ### Frontend
 The frontend is built with Streamlit and provides a clean, minimalist UI for profile creation and search.
+
+## API Endpoints
+
+### Profile Management
+- `GET /api/v1/profiles/`: List all profiles
+- `POST /api/v1/profiles/`: Create a new profile
+- `GET /api/v1/profiles/{id}`: Get a specific profile
+- `PUT /api/v1/profiles/{id}`: Update a profile
+- `DELETE /api/v1/profiles/{id}`: Delete a profile
+
+### Semantic Search
+- `GET /api/v1/search/?query=your search query`: Search for profiles using semantic search
+- `GET /api/v1/search/health`: Health check endpoint
 
 ## Deployment
 

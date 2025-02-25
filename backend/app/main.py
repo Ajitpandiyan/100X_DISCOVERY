@@ -1,4 +1,8 @@
-"""Main application module for the FastAPI backend."""
+"""Main application module for the FastAPI backend.
+
+This module initializes the FastAPI application with routes for profile management
+and semantic search powered by Groq's LLM API.
+"""
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +12,7 @@ from app.routers import profiles, search
 
 app = FastAPI(
     title="100X Discovery API",
-    description="Backend API for 100X Discovery Platform",
+    description="Backend API for 100X Discovery Platform with semantic search capabilities",
     version="1.0.0",
 )
 
@@ -40,4 +44,4 @@ async def root() -> dict[str, str]:
     Returns:
         dict[str, str]: Health status response
     """
-    return {"status": "healthy", "service": "100X Discovery API"}
+    return {"status": "healthy", "service": "100X Discovery API with Semantic Search"}
