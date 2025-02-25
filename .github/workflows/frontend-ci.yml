@@ -31,13 +31,38 @@ jobs:
       run: |
         cd frontend
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install black isort
+        # Add retry mechanism for dependency installation
+        for i in 1 2 3; do
+          echo "Attempt $i to install dependencies..."
+          pip install -r requirements.txt && break || { 
+            if [ $i -lt 3 ]; then
+              echo "Dependency installation failed, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Dependency installation failed after 3 attempts"
+              exit 1
+            fi
+          }
+        done
+        # Install linting tools separately with retry
+        for i in 1 2 3; do
+          echo "Attempt $i to install linting tools..."
+          pip install black==23.11.0 isort==5.12.0 && break || {
+            if [ $i -lt 3 ]; then
+              echo "Tools installation failed, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Tools installation failed after 3 attempts"
+              exit 1
+            fi
+          }
+        done
     
     - name: Check formatting with Black
       run: |
         cd frontend
-        python -m black . --check
+        # Use the --skip-string-normalization flag to match the pyproject.toml configuration
+        python -m black . --check --skip-string-normalization
     
     - name: Check imports with isort
       run: |
@@ -54,13 +79,38 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
     
     - name: Install dependencies
       run: |
         cd frontend
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest
+        # Add retry mechanism for dependency installation
+        for i in 1 2 3; do
+          echo "Attempt $i to install dependencies..."
+          pip install -r requirements.txt && break || { 
+            if [ $i -lt 3 ]; then
+              echo "Dependency installation failed, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Dependency installation failed after 3 attempts"
+              exit 1
+            fi
+          }
+        done
+        # Install test tools separately with retry
+        for i in 1 2 3; do
+          echo "Attempt $i to install test tools..."
+          pip install pytest pytest-cov && break || {
+            if [ $i -lt 3 ]; then
+              echo "Test tools installation failed, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Test tools installation failed after 3 attempts"
+              exit 1
+            fi
+          }
+        done
     
     - name: Create test environment file
       run: |
@@ -89,11 +139,25 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
     
     - name: Install dependencies
       run: |
         cd frontend
-        pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        # Add retry mechanism for dependency installation
+        for i in 1 2 3; do
+          echo "Attempt $i to install dependencies..."
+          pip install -r requirements.txt && break || { 
+            if [ $i -lt 3 ]; then
+              echo "Dependency installation failed, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Dependency installation failed after 3 attempts"
+              exit 1
+            fi
+          }
+        done
 
     - name: Create .streamlit directory
       run: mkdir -p frontend/.streamlit
