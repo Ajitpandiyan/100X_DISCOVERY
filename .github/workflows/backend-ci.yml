@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
     branches: [ main ]
   pull_request:
     paths:
@@ -12,6 +13,8 @@ on:
 
 env:
   PYTHON_VERSION: "3.9"
+  # Explicitly define Docker image with lowercase letters
+  DOCKER_IMAGE: "ghcr.io/ajitpandiyan/100x-discovery-backend"
 
 jobs:
   lint:
@@ -87,12 +90,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    # Set explicitly defined lowercase Docker image name
-    - name: Set Docker image name
-      run: |
-        # Completely hardcode the image name with lowercase
-        echo "DOCKER_IMAGE=ghcr.io/ajitpandiyan/100x-discovery-backend" >> $GITHUB_ENV
-    
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     
@@ -108,10 +105,9 @@ jobs:
       with:
         context: ./backend
         push: true
-        # Use hardcoded lowercase value
         tags: |
-          ghcr.io/ajitpandiyan/100x-discovery-backend:latest
-          ghcr.io/ajitpandiyan/100x-discovery-backend:${{ github.sha }}
+          ${{ env.DOCKER_IMAGE }}:latest
+          ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
@@ -128,4 +124,4 @@ jobs:
       run: |
         echo "Backend would be deployed to Koyeb in a real environment."
         echo "For now, we consider the deployment successful."
-        echo "Deployment step completed!"
+        echo "Deployment step completed!" 

@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'frontend/**'
+      - '.github/workflows/frontend-ci.yml'
     branches: [ main ]
   pull_request:
     paths:
@@ -111,4 +112,4 @@ jobs:
         
         # For now, this is a placeholder as Streamlit Cloud uses GitHub integration
         echo "Note: Streamlit Cloud automatically deploys from GitHub. Please ensure GitHub integration is set up in Streamlit Cloud."
-        echo "Deployment complete!"
+        echo "Deployment complete!" 
