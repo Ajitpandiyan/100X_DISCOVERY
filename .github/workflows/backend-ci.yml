@@ -87,12 +87,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    # Debug: Echo repository owner for debugging
-    - name: Debug repository owner
+    # Set lowercase Docker image name
+    - name: Set Docker image name
       run: |
         echo "Original repository owner: ${{ github.repository_owner }}"
         LOWERCASE_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
         echo "Lowercase owner: $LOWERCASE_OWNER"
+        echo "DOCKER_IMAGE=ghcr.io/${LOWERCASE_OWNER}/100x-discovery-backend" >> $GITHUB_ENV
     
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
@@ -109,8 +110,7 @@ jobs:
       with:
         context: ./backend
         push: true
-        # Use hardcoded lowercase repository owner for Docker image tags
-        tags: ghcr.io/ajitpandiyan/100x-discovery-backend:latest,ghcr.io/ajitpandiyan/100x-discovery-backend:${{ github.sha }}
+        tags: ${{ env.DOCKER_IMAGE }}:latest,${{ env.DOCKER_IMAGE }}:${{ github.sha }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
