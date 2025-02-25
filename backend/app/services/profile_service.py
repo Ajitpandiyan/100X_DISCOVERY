@@ -1,9 +1,10 @@
 import json
-import aiofiles
-from typing import List, Dict, Optional
-from app.models.profile import Profile
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import aiofiles
+from app.models.profile import Profile
 
 
 class ProfileService:

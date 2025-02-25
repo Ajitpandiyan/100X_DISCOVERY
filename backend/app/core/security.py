@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
+
 import jwt
 from app.core.config import settings
 

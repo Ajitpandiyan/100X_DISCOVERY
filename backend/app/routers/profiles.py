@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, status
-from typing import List
 import uuid
+from typing import List
+
 from app.models.profile import Profile, ProfileCreate
 from app.services.profile_service import ProfileService
+from fastapi import APIRouter, HTTPException, status
 
 router = APIRouter()
 profile_service = ProfileService()

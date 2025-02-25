@@ -18,9 +18,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from app.models.profile import ProfileCreate
 from app.services.groq_service import GroqService
 from app.services.profile_service import ProfileService
-from app.models.profile import ProfileCreate
 
 # Set test environment
 os.environ["ENVIRONMENT"] = "test"

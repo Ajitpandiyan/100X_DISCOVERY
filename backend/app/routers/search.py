@@ -3,12 +3,11 @@
 This module provides endpoints for searching profiles using semantic search via Groq API.
 """
 
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
-from fastapi import APIRouter, HTTPException, Query
-
-from app.services.profile_service import ProfileService
 from app.services.groq_service import GroqService
+from app.services.profile_service import ProfileService
+from fastapi import APIRouter, HTTPException, Query
 
 router = APIRouter()
 profile_service = ProfileService()

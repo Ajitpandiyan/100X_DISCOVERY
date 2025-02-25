@@ -6,13 +6,13 @@ This module provides integration with Groq's LLM API for:
 - Enhancing search results with contextual understanding
 """
 
-import httpx
-import json
-from typing import Dict, List, Any, Optional
 import asyncio
+import json
 import os
 import sys
+from typing import Any, Dict, List, Optional
 
+import httpx
 from app.core.config import settings
 
 

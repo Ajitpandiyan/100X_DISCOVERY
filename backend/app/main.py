@@ -4,11 +4,10 @@ This module initializes the FastAPI application with routes for profile manageme
 and semantic search powered by Groq's LLM API.
 """
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
 from app.core.config import settings
 from app.routers import profiles, search
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="100X Discovery API",

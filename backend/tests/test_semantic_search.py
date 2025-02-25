@@ -1,13 +1,13 @@
 """Test module for semantic search functionality."""
 
-import pytest
-from httpx import AsyncClient
 import json
-from unittest.mock import patch, AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import pytest
 from app.main import app
-from app.services.groq_service import GroqService
 from app.models.profile import Profile
+from app.services.groq_service import GroqService
+from httpx import AsyncClient
 
 
 class MockProfile:

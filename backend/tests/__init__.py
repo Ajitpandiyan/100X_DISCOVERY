@@ -10,8 +10,8 @@ This package contains test modules for:
 """
 
 import os
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import List
 
 # Configure test environment
