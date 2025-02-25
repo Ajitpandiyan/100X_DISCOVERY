@@ -37,6 +37,7 @@ app.include_router(
     tags=["search"],
 )
 
+
 @app.get("/health")
 async def root() -> dict[str, str]:
     """Root health check endpoint.

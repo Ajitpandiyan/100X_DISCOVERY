@@ -3,6 +3,7 @@ from httpx import AsyncClient
 from app.main import app
 from app.models.profile import ProfileCreate
 
+
 @pytest.mark.asyncio
 async def test_create_profile():
     async with AsyncClient(app=app, base_url="http://test") as ac:
@@ -12,14 +13,15 @@ async def test_create_profile():
             "skills": ["Python", "Testing"],
             "interests": ["AI", "Development"],
             "github_url": "https://github.com/testuser",
-            "linkedin_url": "https://linkedin.com/in/testuser"
+            "linkedin_url": "https://linkedin.com/in/testuser",
         }
-        
+
         response = await ac.post("/api/v1/profiles/", json=profile_data)
         assert response.status_code == 201
         data = response.json()
         assert data["name"] == profile_data["name"]
         assert "id" in data
+
 
 @pytest.mark.asyncio
 async def test_get_profile():
@@ -29,12 +31,12 @@ async def test_get_profile():
             "name": "Test User",
             "bio": "Test Bio",
             "skills": ["Python", "Testing"],
-            "interests": ["AI", "Development"]
+            "interests": ["AI", "Development"],
         }
-        
+
         create_response = await ac.post("/api/v1/profiles/", json=profile_data)
         created_profile = create_response.json()
-        
+
         # Then get the profile
         response = await ac.get(f"/api/v1/profiles/{created_profile['id']}")
         assert response.status_code == 200

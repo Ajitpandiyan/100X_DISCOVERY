@@ -28,7 +28,9 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except ConnectError:
-            st.error(f"Could not connect to backend server at {_self.base_url}. Please check if the server is running.")
+            st.error(
+                f"Could not connect to backend server at {_self.base_url}. Please check if the server is running."
+            )
             return {"error": "Connection error"}
         except ReadTimeout:
             st.error("Request timed out. The backend server might be overloaded.")
@@ -53,10 +55,14 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except ConnectError:
-            st.error(f"Could not connect to backend server at {_self.base_url}. Please check if the server is running.")
+            st.error(
+                f"Could not connect to backend server at {_self.base_url}. Please check if the server is running."
+            )
             return {"matches": []}
         except ReadTimeout:
-            st.error("Search request timed out. The backend server might be overloaded.")
+            st.error(
+                "Search request timed out. The backend server might be overloaded."
+            )
             return {"matches": []}
         except HTTPStatusError as e:
             st.error(f"Server error: {e.response.status_code} - {e.response.text}")

@@ -5,6 +5,7 @@ from app.models.profile import Profile
 from pathlib import Path
 import os
 
+
 class ProfileService:
     def __init__(self):
         # Get the absolute path to the backend directory

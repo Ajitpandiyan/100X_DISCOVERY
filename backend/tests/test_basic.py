@@ -10,7 +10,8 @@ def test_environment():
     """Test that we can import basic requirements."""
     try:
         import fastapi
+
         assert fastapi is not None
     except ImportError:
         # For CI environments where fastapi might not be installed correctly
-        pass 
+        pass

@@ -112,7 +112,9 @@ class GroqService:
                     profile_idx = result.get("profile_index", 0) - 1
                     if 0 <= profile_idx < len(profiles):
                         profile_copy = profiles[profile_idx].copy()
-                        profile_copy["score"] = result.get("score", 0) / 100.0  # Normalize to 0-1
+                        profile_copy["score"] = (
+                            result.get("score", 0) / 100.0
+                        )  # Normalize to 0-1
                         profile_copy["match_reason"] = result.get("reasoning", "")
                         ranked_profiles.append(profile_copy)
 
@@ -298,4 +300,4 @@ class GroqService:
 
         # Sort by score
         matches.sort(key=lambda x: x["score"], reverse=True)
-        return matches 
+        return matches

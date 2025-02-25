@@ -25,16 +25,18 @@ def render_search_interface():
 
     # Backend connection status
     client = APIClient()
-    
+
     if query:
         try:
             with st.spinner("Searching profiles with semantic search..."):
                 results = client.search_profiles(query)
-            
+
             # Check for error in results
             if "error" in results:
                 st.error(f"Search failed: {results.get('error')}")
-                st.info("Please try again later or contact support if the issue persists.")
+                st.info(
+                    "Please try again later or contact support if the issue persists."
+                )
                 return
 
             if not results or len(results.get("matches", [])) == 0:
@@ -56,7 +58,7 @@ def render_search_interface():
                     """,
                         unsafe_allow_html=True,
                     )
-                    
+
                     # Profile header with name and score
                     col1, col2 = st.columns([3, 1])
                     with col1:
@@ -64,30 +66,32 @@ def render_search_interface():
                     with col2:
                         score = int(profile.get("score", 0) * 100)
                         st.metric("Match", f"{score}%")
-                    
+
                     # Bio
                     st.write(profile.get("bio", "No bio available"))
-                    
+
                     # Skills and interests
                     if "skills" in profile and profile["skills"]:
                         st.write("**Skills:** " + ", ".join(profile["skills"]))
-                    
+
                     if "interests" in profile and profile["interests"]:
                         st.write("**Interests:** " + ", ".join(profile["interests"]))
-                    
+
                     # Links
                     cols = st.columns(2)
                     if "github_url" in profile and profile["github_url"]:
                         cols[0].markdown(f"[GitHub Profile]({profile['github_url']})")
-                    
+
                     if "linkedin_url" in profile and profile["linkedin_url"]:
-                        cols[1].markdown(f"[LinkedIn Profile]({profile['linkedin_url']})")
-                    
+                        cols[1].markdown(
+                            f"[LinkedIn Profile]({profile['linkedin_url']})"
+                        )
+
                     # Match reason
                     if "match_reason" in profile and profile["match_reason"]:
                         with st.expander("Why this match?"):
                             st.write(profile["match_reason"])
-                    
+
                     st.divider()
         except Exception as e:
             st.error(f"An error occurred during search: {str(e)}")

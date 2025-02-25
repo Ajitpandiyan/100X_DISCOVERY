@@ -39,10 +39,10 @@ async def search_profiles(
     try:
         # Get all profiles
         profiles = await profile_service.list_profiles()
-        
+
         # Convert profiles to dictionaries
         profile_dicts = [profile.dict() for profile in profiles]
-        
+
         # Use Groq for semantic search
         matches = await groq_service.get_semantic_search_results(query, profile_dicts)
 

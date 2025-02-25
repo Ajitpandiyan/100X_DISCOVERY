@@ -3,6 +3,7 @@ from typing import Optional
 import jwt
 from app.core.config import settings
 
+
 class SecurityService:
     @staticmethod
     def create_api_key() -> str:
@@ -10,10 +11,10 @@ class SecurityService:
         return jwt.encode(
             {
                 "created_at": datetime.utcnow().isoformat(),
-                "exp": datetime.utcnow() + timedelta(days=365)
+                "exp": datetime.utcnow() + timedelta(days=365),
             },
             settings.SECRET_KEY,
-            algorithm="HS256"
+            algorithm="HS256",
         )
 
     @staticmethod

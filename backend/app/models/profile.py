@@ -14,7 +14,9 @@ class ProfileBase(BaseModel):
 
     name: str = Field(..., description="Full name of the user")
     bio: str = Field(..., description="Brief biography or description")
-    skills: List[str] = Field(default_factory=list, description="List of technical skills")
+    skills: List[str] = Field(
+        default_factory=list, description="List of technical skills"
+    )
     interests: List[str] = Field(
         default_factory=list, description="List of professional interests"
     )
@@ -53,6 +55,6 @@ class Profile(ProfileBase):
                 "skills": ["Python", "React", "FastAPI"],
                 "interests": ["Machine Learning", "Web Development"],
                 "github_url": "https://github.com/johndoe",
-                "linkedin_url": "https://linkedin.com/in/johndoe"
+                "linkedin_url": "https://linkedin.com/in/johndoe",
             }
         }

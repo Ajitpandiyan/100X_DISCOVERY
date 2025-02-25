@@ -1,0 +1,177 @@
+[tool.black]
+line-length = 88
+target-version = ['py39']
+skip-string-normalization = true
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | venv
+  | venv_new
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+skip_gitignore = true
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov=frontend --cov=backend --cov-report=term-missing"
+testpaths = [
+    "frontend/tests",
+    "backend/tests",
+]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.coverage.run]
+source = ["frontend", "backend"]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/__init__.py",
+    "*/settings.py",
+    "*/conftest.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+# E/F: pycodestyle and Pyflakes
+# W: pycodestyle warnings
+# I: isort
+# B: flake8-bugbear
+# C4: flake8-comprehensions
+# ARG: flake8-unused-arguments
+# SIM: flake8-simplify
+# TCH: flake8-type-checking
+# RUF: Ruff-specific rules
+# D: pydocstyle
+select = ["E", "F", "W", "I", "B", "C4", "ARG", "SIM", "TCH", "RUF", "D"]
+ignore = [
+    "E203",  # Whitespace before ':'
+    "E501",  # Line too long
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package
+    "D107",  # Missing docstring in __init__
+]
+# Allow autofix for all enabled rules (when `--fix`) is provided
+fixable = ["ALL"]
+unfixable = []
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "venv_new",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.isort]
+known-first-party = ["frontend", "backend"]
+
+[tool.ruff.pydocstyle]
+convention = "google"  # Accepts: "google", "numpy", or "pep257"
+
+[tool.ruff.per-file-ignores]
+"**/tests/*" = ["D", "ARG", "SIM"]
+"**/migrations/*" = ["D", "ARG", "SIM", "E", "F", "I"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "venv", "venv_new"]
+skips = ["B101"]  # Skip assert warning
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "E501"]
+exclude = [".git", "__pycache__", "build", "dist", "venv", "venv_new"]
+
+[tool.pylint]
+max-line-length = 88
+disable = [
+    "C0103",  # Variable name doesn't conform to snake_case naming style
+    "C0111",  # Missing docstring
+    "C0330",  # Wrong hanging indentation
+    "C0326",  # Bad whitespace
+    "W0511",  # TODOs
+    "R0903",  # Too few public methods
+]
+good-names = ["i", "j", "k", "ex", "Run", "_", "id", "db"]
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 88
+wrap-descriptions = 88
+blank = true
+
+[tool.pydocstyle]
+convention = "google"
+match = "(?!test_).*\\.py"
+
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = true
+tag_name = "v{new_version}"
+message = "Bump version: {current_version} → {new_version}"
+
+[tool.bumpversion.file_patterns]
+"frontend/__init__.py" = [
+    "__version__ = '{current_version}'",
+    "__version__ = '{new_version}'",
+]
+"backend/__init__.py" = [
+    "__version__ = '{current_version}'",
+    "__version__ = '{new_version}'",
+] 
