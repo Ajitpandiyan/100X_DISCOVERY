@@ -34,7 +34,7 @@ jobs:
         # Add retry mechanism for dependency installation
         for i in 1 2 3 4 5; do
           echo "Attempt $i to install dependencies..."
-          pip install -r requirements.txt && break || { 
+          pip install -r requirements.txt --index-url=https://pypi.org/simple --no-cache-dir && break || { 
             if [ $i -lt 5 ]; then
               echo "Dependency installation failed, retrying in 20 seconds..."
               sleep 20
@@ -47,7 +47,7 @@ jobs:
         # Install linting tools separately with retry
         for i in 1 2 3 4 5; do
           echo "Attempt $i to install linting tools..."
-          pip install black==23.11.0 isort==5.12.0 && break || {
+          pip install black==23.11.0 isort==5.12.0 --index-url=https://pypi.org/simple --no-cache-dir && break || {
             if [ $i -lt 5 ]; then
               echo "Tools installation failed, retrying in 20 seconds..."
               sleep 20
@@ -88,7 +88,7 @@ jobs:
         # Add retry mechanism for dependency installation
         for i in 1 2 3 4 5; do
           echo "Attempt $i to install dependencies..."
-          pip install -r requirements.txt && break || { 
+          pip install -r requirements.txt --index-url=https://pypi.org/simple --no-cache-dir && break || { 
             if [ $i -lt 5 ]; then
               echo "Dependency installation failed, retrying in 20 seconds..."
               sleep 20
@@ -101,7 +101,7 @@ jobs:
         # Install test tools separately with retry
         for i in 1 2 3 4 5; do
           echo "Attempt $i to install test tools..."
-          pip install pytest pytest-cov && break || {
+          pip install pytest pytest-cov --index-url=https://pypi.org/simple --no-cache-dir && break || {
             if [ $i -lt 5 ]; then
               echo "Test tools installation failed, retrying in 20 seconds..."
               sleep 20
@@ -148,7 +148,7 @@ jobs:
         # Add retry mechanism for dependency installation
         for i in 1 2 3 4 5; do
           echo "Attempt $i to install dependencies..."
-          pip install -r requirements.txt && break || { 
+          pip install -r requirements.txt --index-url=https://pypi.org/simple --no-cache-dir && break || { 
             if [ $i -lt 5 ]; then
               echo "Dependency installation failed, retrying in 20 seconds..."
               sleep 20
