@@ -1,7 +1,8 @@
+import time
+
 import httpx
 import streamlit as st
-import time
-from httpx import ConnectError, ReadTimeout, HTTPStatusError
+from httpx import ConnectError, HTTPStatusError, ReadTimeout
 
 from ..config import BACKEND_API_KEY, settings
 

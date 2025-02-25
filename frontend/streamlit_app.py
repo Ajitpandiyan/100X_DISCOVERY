@@ -1,5 +1,4 @@
 import streamlit as st
-
 from src.components.profile_form import render_profile_form
 from src.components.search_interface import render_search_interface
 from src.utils.api import APIClient

@@ -1,6 +1,6 @@
-import streamlit as st
 import pytest
-from src.config import BACKEND_API_KEY, STREAMLIT_TOKEN, settings, Settings
+import streamlit as st
+from src.config import BACKEND_API_KEY, STREAMLIT_TOKEN, Settings, settings
 
 
 def test_api_keys():

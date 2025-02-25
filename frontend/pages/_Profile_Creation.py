@@ -1,5 +1,4 @@
 import streamlit as st
-
 from src.components.profile_form import render_profile_form
 
 st.set_page_config(
