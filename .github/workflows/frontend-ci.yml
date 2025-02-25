@@ -32,27 +32,27 @@ jobs:
         cd frontend
         python -m pip install --upgrade pip
         # Add retry mechanism for dependency installation
-        for i in 1 2 3; do
+        for i in 1 2 3 4 5; do
           echo "Attempt $i to install dependencies..."
           pip install -r requirements.txt && break || { 
-            if [ $i -lt 3 ]; then
-              echo "Dependency installation failed, retrying in 10 seconds..."
-              sleep 10
+            if [ $i -lt 5 ]; then
+              echo "Dependency installation failed, retrying in 20 seconds..."
+              sleep 20
             else
-              echo "Dependency installation failed after 3 attempts"
+              echo "Dependency installation failed after 5 attempts"
               exit 1
             fi
           }
         done
         # Install linting tools separately with retry
-        for i in 1 2 3; do
+        for i in 1 2 3 4 5; do
           echo "Attempt $i to install linting tools..."
           pip install black==23.11.0 isort==5.12.0 && break || {
-            if [ $i -lt 3 ]; then
-              echo "Tools installation failed, retrying in 10 seconds..."
-              sleep 10
+            if [ $i -lt 5 ]; then
+              echo "Tools installation failed, retrying in 20 seconds..."
+              sleep 20
             else
-              echo "Tools installation failed after 3 attempts"
+              echo "Tools installation failed after 5 attempts"
               exit 1
             fi
           }
@@ -86,27 +86,27 @@ jobs:
         cd frontend
         python -m pip install --upgrade pip
         # Add retry mechanism for dependency installation
-        for i in 1 2 3; do
+        for i in 1 2 3 4 5; do
           echo "Attempt $i to install dependencies..."
           pip install -r requirements.txt && break || { 
-            if [ $i -lt 3 ]; then
-              echo "Dependency installation failed, retrying in 10 seconds..."
-              sleep 10
+            if [ $i -lt 5 ]; then
+              echo "Dependency installation failed, retrying in 20 seconds..."
+              sleep 20
             else
-              echo "Dependency installation failed after 3 attempts"
+              echo "Dependency installation failed after 5 attempts"
               exit 1
             fi
           }
         done
         # Install test tools separately with retry
-        for i in 1 2 3; do
+        for i in 1 2 3 4 5; do
           echo "Attempt $i to install test tools..."
           pip install pytest pytest-cov && break || {
-            if [ $i -lt 3 ]; then
-              echo "Test tools installation failed, retrying in 10 seconds..."
-              sleep 10
+            if [ $i -lt 5 ]; then
+              echo "Test tools installation failed, retrying in 20 seconds..."
+              sleep 20
             else
-              echo "Test tools installation failed after 3 attempts"
+              echo "Test tools installation failed after 5 attempts"
               exit 1
             fi
           }
@@ -146,14 +146,14 @@ jobs:
         cd frontend
         python -m pip install --upgrade pip
         # Add retry mechanism for dependency installation
-        for i in 1 2 3; do
+        for i in 1 2 3 4 5; do
           echo "Attempt $i to install dependencies..."
           pip install -r requirements.txt && break || { 
-            if [ $i -lt 3 ]; then
-              echo "Dependency installation failed, retrying in 10 seconds..."
-              sleep 10
+            if [ $i -lt 5 ]; then
+              echo "Dependency installation failed, retrying in 20 seconds..."
+              sleep 20
             else
-              echo "Dependency installation failed after 3 attempts"
+              echo "Dependency installation failed after 5 attempts"
               exit 1
             fi
           }
