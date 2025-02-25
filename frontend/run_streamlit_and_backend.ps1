@@ -1,4 +1,4 @@
-# Run Streamlit Application for 100X Discovery Platform
+# Run both Backend and Frontend for 100X Discovery Platform
 Write-Host "Starting 100X Discovery Platform..." -ForegroundColor Green
 
 # Change to the script's directory if not already there
@@ -6,6 +6,15 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 if ($scriptPath) {
     Set-Location -Path $scriptPath
 }
+
+# Start the backend server in a new PowerShell window
+$backendPath = Join-Path -Path (Split-Path -Parent $scriptPath) -ChildPath "backend"
+Write-Host "Starting backend server at $backendPath..." -ForegroundColor Cyan
+Start-Process powershell -ArgumentList "-Command", "Set-Location '$backendPath'; python -m uvicorn app.main:app --reload --port 8000"
+
+# Wait a moment for the backend to initialize
+Write-Host "Waiting for backend to start..." -ForegroundColor Yellow
+Start-Sleep -Seconds 5
 
 try {
     # Run Streamlit application using python from virtual environment with port 8502

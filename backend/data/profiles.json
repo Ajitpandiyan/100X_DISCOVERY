@@ -93,5 +93,20 @@
     ],
     "github_url": "https://github.com/jamalw",
     "linkedin_url": "https://linkedin.com/in/jamalw"
+  },
+  {
+    "name": "Inara",
+    "bio": "10 years exp in Applied AI",
+    "skills": [
+      "Python"
+    ],
+    "interests": [
+      "Web Development",
+      "AI/ML",
+      "Cloud Computing"
+    ],
+    "github_url": null,
+    "linkedin_url": null,
+    "id": "ec1897eb-548a-4785-ac01-62c549a7d2f5"
   }
 ]

@@ -6,7 +6,7 @@ REM Change to the frontend directory
 cd /d %~dp0
 
 REM First start the backend server in a new window
-start cmd /k "cd /d D:\100x\100x_cursor\100X_DISCOVERY\backend && python -m uvicorn app.main:app --reload --port 8000"
+start cmd /k "cd /d %~dp0..\backend && python -m uvicorn app.main:app --reload --port 8000"
 
 REM Wait a moment for the backend to initialize
 echo Waiting for backend to start...

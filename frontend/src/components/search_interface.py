@@ -15,22 +15,32 @@ def render_search_interface():
 
     # Advanced options
     with st.expander("Search Options"):
-        st.caption("The search uses semantic understanding to find the best matches based on:")
-        st.write("• Skills (weighted highest)")  
+        st.caption(
+            "The search uses semantic understanding to find the best matches based on:"
+        )
+        st.write("• Skills (weighted highest)")
         st.write("• Interests (weighted medium)")
         st.write("• Bio and name (weighted lower)")
         st.write("Results are ranked by relevance score (0-100)")
 
+    # Backend connection status
+    client = APIClient()
+    
     if query:
         try:
             with st.spinner("Searching profiles with semantic search..."):
-                client = APIClient()
                 results = client.search_profiles(query)
+            
+            # Check for error in results
+            if "error" in results:
+                st.error(f"Search failed: {results.get('error')}")
+                st.info("Please try again later or contact support if the issue persists.")
+                return
 
             if not results or len(results.get("matches", [])) == 0:
                 st.info("No profiles found matching your search criteria.")
                 return
-            
+
             # Show search stats
             matches = results.get("matches", [])
             st.success(f"Found {len(matches)} relevant profiles for your search")
@@ -39,53 +49,46 @@ def render_search_interface():
             for i, profile in enumerate(matches):
                 with st.container():
                     # Create a card-like effect with background color
-                    st.markdown(f"""
+                    st.markdown(
+                        f"""
                     <div class="profile-card">
                     </div>
-                    """, unsafe_allow_html=True)
+                    """,
+                        unsafe_allow_html=True,
+                    )
                     
-                    # Match information
-                    match_score = profile.get("score", 0)
+                    # Profile header with name and score
                     col1, col2 = st.columns([3, 1])
-                    
                     with col1:
-                        st.subheader(profile["name"])
-                        
+                        st.subheader(profile.get("name", "Unknown"))
                     with col2:
-                        # Display score with a progress bar
-                        if match_score:
-                            st.metric("Match Score", f"{int(match_score)}/100")
+                        score = int(profile.get("score", 0) * 100)
+                        st.metric("Match", f"{score}%")
+                    
+                    # Bio
+                    st.write(profile.get("bio", "No bio available"))
+                    
+                    # Skills and interests
+                    if "skills" in profile and profile["skills"]:
+                        st.write("**Skills:** " + ", ".join(profile["skills"]))
+                    
+                    if "interests" in profile and profile["interests"]:
+                        st.write("**Interests:** " + ", ".join(profile["interests"]))
+                    
+                    # Links
+                    cols = st.columns(2)
+                    if "github_url" in profile and profile["github_url"]:
+                        cols[0].markdown(f"[GitHub Profile]({profile['github_url']})")
+                    
+                    if "linkedin_url" in profile and profile["linkedin_url"]:
+                        cols[1].markdown(f"[LinkedIn Profile]({profile['linkedin_url']})")
                     
                     # Match reason
                     if "match_reason" in profile and profile["match_reason"]:
-                        st.info(f"**Why this match?** {profile['match_reason']}")
+                        with st.expander("Why this match?"):
+                            st.write(profile["match_reason"])
                     
-                    # Profile details
-                    st.write(profile["bio"])
-                    
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.write("**Skills:**")
-                        for skill in profile["skills"]:
-                            st.markdown(f"- {skill}")
-
-                    with col2:
-                        st.write("**Interests:**")
-                        for interest in profile["interests"]:
-                            st.markdown(f"- {interest}")
-
-                    # Links
-                    if profile.get("github_url") or profile.get("linkedin_url"):
-                        st.write("**Links:**")
-                        cols = st.columns(2)
-                        if profile.get("github_url"):
-                            cols[0].link_button("GitHub", profile["github_url"])
-                        if profile.get("linkedin_url"):
-                            cols[1].link_button("LinkedIn", profile["linkedin_url"])
-
                     st.divider()
-
         except Exception as e:
-            st.error(f"Error searching profiles: {str(e)}")
-            st.write("Please ensure the backend server is running and properly configured.")
+            st.error(f"An error occurred during search: {str(e)}")
+            st.info("Please try again later or contact support if the issue persists.")
