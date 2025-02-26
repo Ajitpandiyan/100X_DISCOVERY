@@ -108,5 +108,61 @@
     "github_url": null,
     "linkedin_url": null,
     "id": "ec1897eb-548a-4785-ac01-62c549a7d2f5"
+  },
+  {
+    "name": "Mershiya",
+    "bio": "10 years exp in AI/ML",
+    "skills": [
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "Machine Learning",
+      "Deep Learning"
+    ],
+    "interests": [
+      "AI/ML",
+      "Web Development",
+      "Blockchain"
+    ],
+    "github_url": null,
+    "linkedin_url": null,
+    "id": "0fcaaed9-feb7-4563-9204-611e19cf8d89"
+  },
+  {
+    "name": "John david",
+    "bio": "20 years experience in Applied AI engineers\n",
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Deep Learning",
+      "NLP",
+      "Computer Vision",
+      "Data Science"
+    ],
+    "interests": [
+      "AI/ML",
+      "UI/UX Design",
+      "Healthtech"
+    ],
+    "github_url": null,
+    "linkedin_url": null,
+    "id": "cf87c96f-896f-4b75-8fb1-879a7dadd5f2"
+  },
+  {
+    "name": "Ajit Pandiyan",
+    "bio": "Entreprenuer",
+    "skills": [
+      "Machine Learning",
+      "Deep Learning",
+      "NLP",
+      "Data Science"
+    ],
+    "interests": [
+      "AI/ML",
+      "Web Development"
+    ],
+    "github_url": null,
+    "linkedin_url": null,
+    "id": "7d3ddb1c-a069-4a58-9d8e-691748028303"
   }
 ]

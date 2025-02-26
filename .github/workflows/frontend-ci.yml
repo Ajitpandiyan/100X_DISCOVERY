@@ -118,6 +118,13 @@ jobs:
         echo "STREAMLIT_TOKEN=test_token" > .env
         echo "BACKEND_API_KEY=test_key" >> .env
         echo "BACKEND_API_URL=http://localhost:8000" >> .env
+        
+        # Also create .streamlit directory and secrets.toml for testing
+        mkdir -p .streamlit
+        echo "[general]" > .streamlit/secrets.toml
+        echo "STREAMLIT_TOKEN = \"test_token\"" >> .streamlit/secrets.toml
+        echo "BACKEND_API_KEY = \"test_key\"" >> .streamlit/secrets.toml
+        echo "BACKEND_API_URL = \"http://localhost:8000\"" >> .streamlit/secrets.toml
     
     - name: Run tests
       run: |
@@ -125,6 +132,12 @@ jobs:
         python -m pytest tests/test_basic.py -v
       env:
         PYTHONPATH: ${{ github.workspace }}/frontend
+        
+    - name: Verify configuration
+      run: |
+        cd frontend
+        echo "Verifying configuration..."
+        python test_config.py
 
   deploy:
     needs: [test]
@@ -168,6 +181,15 @@ jobs:
         echo "STREAMLIT_TOKEN = \"${{ secrets.STREAMLIT_TOKEN || 'dummy_token' }}\"" >> frontend/.streamlit/secrets.toml
         echo "BACKEND_API_KEY = \"${{ secrets.BACKEND_API_KEY || 'dummy_key' }}\"" >> frontend/.streamlit/secrets.toml
         echo "BACKEND_API_URL = \"${{ secrets.BACKEND_API_URL || 'http://localhost:8000' }}\"" >> frontend/.streamlit/secrets.toml
+        
+        # Create .env file for local environment variables
+        echo "BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY || 'dummy_key' }}" > frontend/.env
+        echo "BACKEND_API_URL=${{ secrets.BACKEND_API_URL || 'http://localhost:8000' }}" >> frontend/.env
+        echo "STREAMLIT_TOKEN=${{ secrets.STREAMLIT_TOKEN || 'dummy_token' }}" >> frontend/.env
+        
+        # Verify the environment variables are set
+        echo "Verifying environment configuration..."
+        echo "BACKEND_API_URL is set to: '${{ secrets.BACKEND_API_URL || 'http://localhost:8000' }}'"
 
     - name: Deploy to Streamlit Cloud
       run: |

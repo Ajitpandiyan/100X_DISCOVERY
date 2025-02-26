@@ -71,9 +71,21 @@ class GroqService:
         
         Analyze these profiles and rank them by relevance to the search query.
         Consider skills, interests, bio, and name, with skills being most important.
-        Return a JSON array of objects with profile index (starting from 1) and relevance score (0-100).
+        Return a JSON object with the following structure:
+        {{
+          "results": [
+            {{
+              "profile_index": 1, 
+              "score": 85, 
+              "reasoning": "brief explanation of why this profile matches"
+            }},
+            ...
+          ]
+        }}
+        
         Only include profiles with some relevance (score > 0).
-        Format: [{{\"profile_index\": 1, \"score\": 85, \"reasoning\": \"brief explanation\"}}]
+        Be sure to understand the semantic meaning of the query and match based on concepts, not just keywords.
+        Use a score of 0-100 where 100 is a perfect match and 0 is no match at all.
         """
 
         try:
@@ -90,7 +102,7 @@ class GroqService:
                         "messages": [
                             {
                                 "role": "system",
-                                "content": "You are a semantic search engine that analyzes profiles and returns relevant matches as JSON.",
+                                "content": "You are a semantic search engine that analyzes profiles and returns relevant matches as JSON. You excel at understanding natural language queries and finding semantic matches beyond just keyword matching.",
                             },
                             {"role": "user", "content": prompt},
                         ],
@@ -104,19 +116,32 @@ class GroqService:
 
                 # Extract the JSON response
                 content = result["choices"][0]["message"]["content"]
-                search_results = json.loads(content)
-
-                # Map the results back to the original profiles
-                ranked_profiles = []
-                for result in search_results.get("results", []):
-                    profile_idx = result.get("profile_index", 0) - 1
-                    if 0 <= profile_idx < len(profiles):
-                        profile_copy = profiles[profile_idx].copy()
-                        profile_copy["score"] = (
-                            result.get("score", 0) / 100.0
-                        )  # Normalize to 0-1
-                        profile_copy["match_reason"] = result.get("reasoning", "")
-                        ranked_profiles.append(profile_copy)
+                try:
+                    search_results = json.loads(content)
+                    
+                    # For debugging
+                    print(f"Groq API Response: {json.dumps(search_results, indent=2)}")
+                    
+                    # Check if results key exists
+                    if "results" not in search_results:
+                        print("No 'results' key in response, using fallback search")
+                        return self._fallback_search(query, profiles)
+                        
+                    # Map the results back to the original profiles
+                    ranked_profiles = []
+                    for result in search_results.get("results", []):
+                        profile_idx = result.get("profile_index", 0) - 1
+                        if 0 <= profile_idx < len(profiles):
+                            profile_copy = profiles[profile_idx].copy()
+                            profile_copy["score"] = (
+                                result.get("score", 0) / 100.0
+                            )  # Normalize to 0-1
+                            profile_copy["match_reason"] = result.get("reasoning", "")
+                            ranked_profiles.append(profile_copy)
+                except json.JSONDecodeError as e:
+                    print(f"JSON decode error: {str(e)}")
+                    print(f"Original content: {content}")
+                    return self._fallback_search(query, profiles)
 
                 # Sort by score (highest first)
                 ranked_profiles.sort(key=lambda x: x["score"], reverse=True)
