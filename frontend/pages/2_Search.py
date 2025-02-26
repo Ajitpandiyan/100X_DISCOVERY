@@ -10,6 +10,7 @@ st.set_page_config(
 # Run the search interface
 run_search()
 
+
 def main():
     st.header("Search Profiles")
     st.markdown("---")

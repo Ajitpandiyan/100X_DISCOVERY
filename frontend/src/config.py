@@ -73,7 +73,7 @@ def get_backend_api_key() -> Optional[str]:
 def get_groq_api_key() -> Optional[str]:
     """
     Get GROQ API key from environment variables or secrets.
-    
+
     Returns:
         Optional[str]: Key in order of precedence:
             1. Environment variable
@@ -82,11 +82,11 @@ def get_groq_api_key() -> Optional[str]:
     """
     # First try environment variable
     key = os.getenv("GROQ_API_KEY")
-    
+
     # Then try streamlit secrets
     if not key and "groq_api_key" in st.secrets["general"]:
         key = st.secrets["general"]["groq_api_key"]
-        
+
     return key
 
 

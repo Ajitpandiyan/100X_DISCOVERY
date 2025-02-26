@@ -27,9 +27,9 @@ def test_api_keys():
 
     # Test Settings
     print("\n3. Testing Settings Configuration:")
-    print(f"✅ Backend URL: {settings.BACKEND_API_URL}")
+    print(f"✅ Backend URL: {settings.backend_api_url}")
     print(
-        f"✅ Backend API Key from settings: {'Present' if settings.BACKEND_API_KEY else 'Missing'}"
+        f"✅ Backend API Key from settings: {'Present' if settings.backend_api_key else 'Missing'}"
     )
 
 

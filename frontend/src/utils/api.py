@@ -49,16 +49,18 @@ class APIClient:
         try:
             # Increase timeout for semantic search which can take longer
             search_timeout = 30.0  # 30 seconds timeout for search
-            
-            st.info("Searching for profiles... This may take a few seconds for semantic search.")
-            
+
+            st.info(
+                "Searching for profiles... This may take a few seconds for semantic search."
+            )
+
             # Add timestamp to avoid caching issues
             timestamp = int(time.time())
-            
+
             # Ensure the URL is correctly formed with no trailing slash
             search_url = f"{_self.base_url.rstrip('/')}/api/v1/search?t={timestamp}"
             st.write(f"Debug - Search URL: {search_url}")
-            
+
             response = httpx.post(
                 search_url,
                 json={"query": query},
@@ -68,11 +70,11 @@ class APIClient:
             )
             response.raise_for_status()
             result = response.json()
-            
+
             if "matches" not in result:
                 st.error("Invalid response format from the search API")
                 return {"matches": []}
-                
+
             return result
         except ConnectError:
             st.error(
@@ -98,19 +100,19 @@ class APIClient:
             # Ensure the URL is correctly formed with no trailing slash
             profiles_url = f"{_self.base_url.rstrip('/')}/api/v1/profiles/"
             st.write(f"Debug - Profiles URL: {profiles_url}")
-            
+
             response = httpx.get(
                 profiles_url,
                 headers=_self.headers,
                 timeout=_self.timeout,
             )
-            
+
             # Debug response status
             st.write(f"Debug - Response status: {response.status_code}")
-            
+
             response.raise_for_status()
             result = response.json()
-            
+
             # If the response doesn't have a 'profiles' key, try to adapt the format
             if "profiles" not in result:
                 # Check if the response is a list of profiles
@@ -119,7 +121,7 @@ class APIClient:
                 else:
                     st.error("Invalid response format from the profiles API")
                     return {"profiles": []}
-                    
+
             return result
         except ConnectError:
             st.error(

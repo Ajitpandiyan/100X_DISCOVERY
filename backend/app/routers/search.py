@@ -24,7 +24,7 @@ async def search_profiles_get(
     query: str = Query(..., description="Search query for matching profiles")
 ) -> Dict[str, List[Dict[str, Any]]]:
     """Search for profiles based on a text query using semantic search (GET method).
-    
+
     See POST method for more details.
     """
     return await _perform_search(query)
@@ -32,7 +32,9 @@ async def search_profiles_get(
 
 @router.post("/")
 async def search_profiles_post(
-    query_data: Dict[str, str] = Body(..., example={"query": "experienced AI researcher"})
+    query_data: Dict[str, str] = Body(
+        ..., example={"query": "experienced AI researcher"}
+    )
 ) -> Dict[str, List[Dict[str, Any]]]:
     """Search for profiles based on a text query using semantic search.
 
@@ -56,28 +58,28 @@ async def search_profiles_post(
             status_code=400,
             detail="Missing required field 'query' in request body",
         )
-    
+
     return await _perform_search(query_data["query"])
 
 
 async def _perform_search(query: str) -> Dict[str, List[Dict[str, Any]]]:
     """Internal function to perform the search logic.
-    
+
     Args:
         query: Search string to match against profiles
-        
+
     Returns:
         Dict with matches
-        
+
     Raises:
         HTTPException on error
     """
     logger.info(f"Performing semantic search for query: '{query}'")
-    
+
     try:
         # Get all profiles
         profiles = await profile_service.list_profiles()
-        
+
         if not profiles:
             logger.warning("No profiles found in database")
             return {"matches": []}

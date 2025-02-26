@@ -118,15 +118,15 @@ class GroqService:
                 content = result["choices"][0]["message"]["content"]
                 try:
                     search_results = json.loads(content)
-                    
+
                     # For debugging
                     print(f"Groq API Response: {json.dumps(search_results, indent=2)}")
-                    
+
                     # Check if results key exists
                     if "results" not in search_results:
                         print("No 'results' key in response, using fallback search")
                         return self._fallback_search(query, profiles)
-                        
+
                     # Map the results back to the original profiles
                     ranked_profiles = []
                     for result in search_results.get("results", []):
